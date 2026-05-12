@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tureng Kelime Toplayıcı</title>
+  <style>
+    /* ── Reset & Base ────────────────────────────────────────── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 400px;
+      min-height: 480px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                   'Helvetica Neue', Arial, sans-serif;
+      background: #0a0a1a;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+      padding: 22px 20px 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .header h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+    .header p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      margin-top: 4px;
+    }
+
+    /* ── Stats Card ──────────────────────────────────────────── */
+    .stats-card {
+      margin: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+    .stats-number {
+      font-size: 40px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .stats-label {
+      font-size: 11px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+    }
+
+    /* ── Word List ───────────────────────────────────────────── */
+    .word-list-container {
+      margin: 0 16px 12px;
+      max-height: 220px;
+      overflow-y: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+    }
+    .word-list-container::-webkit-scrollbar { width: 5px; }
+    .word-list-container::-webkit-scrollbar-track { background: transparent; }
+    .word-list-container::-webkit-scrollbar-thumb {
+      background: rgba(139,92,246,0.4);
+      border-radius: 10px;
+    }
+
+    .word-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.2s ease;
+    }
+    .word-item:last-child { border-bottom: none; }
+    .word-item:hover { background: rgba(99,102,241,0.08); }
+
+    .word-badge {
+      flex-shrink: 0;
+      min-width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #c4b5fd;
+      background: rgba(139,92,246,0.15);
+      border-radius: 8px;
+    }
+    .word-info { flex: 1; min-width: 0; }
+    .word-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .word-meaning {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .word-date {
+      flex-shrink: 0;
+      font-size: 10px;
+      color: #475569;
+      margin-top: 2px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: #475569;
+      font-size: 13px;
+    }
+    .empty-state .icon { font-size: 28px; margin-bottom: 8px; }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 24px rgba(99,102,241,0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-row { display: flex; gap: 8px; }
+    .btn-row .btn { flex: 1; }
+
+    .btn-secondary {
+      background: rgba(16,185,129,0.12);
+      color: #34d399;
+      border: 1px solid rgba(16,185,129,0.2);
+    }
+    .btn-secondary:hover { background: rgba(16,185,129,0.2); }
+
+    .btn-danger {
+      background: rgba(239,68,68,0.1);
+      color: #f87171;
+      border: 1px solid rgba(239,68,68,0.15);
+    }
+    .btn-danger:hover { background: rgba(239,68,68,0.18); }
+
+    /* ── Status Toast ────────────────────────────────────────── */
+    .status {
+      text-align: center;
+      font-size: 12px;
+      padding: 0 16px;
+      margin-bottom: 8px;
+      min-height: 18px;
+      transition: opacity 0.3s ease;
+    }
+    .status.success { color: #34d399; }
+    .status.error   { color: #f87171; }
+    .status.info    { color: #818cf8; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────── -->
+  <div class="header">
+    <h1>📖 Tureng Kelime Toplayıcı</h1>
+    <p>Arattığın kelimeler otomatik olarak kaydedilir</p>
+  </div>
+
+  <!-- ── Stats ───────────────────────────────────────────────── -->
+  <div class="stats-card">
+    <div class="stats-number" id="wordCount">0</div>
+    <div class="stats-label">Kayıtlı Kelime</div>
+  </div>
+
+  <!-- ── Word List ───────────────────────────────────────────── -->
+  <div class="word-list-container" id="wordListContainer">
+    <div class="empty-state">
+      <div class="icon">📝</div>
+      Henüz kelime kaydedilmedi.<br />
+      Tureng'de bir kelime aratın!
+    </div>
+  </div>
+
+  <!-- ── Status Message ──────────────────────────────────────── -->
+  <div class="status" id="statusMsg"></div>
+
+  <!-- ── Action Buttons ──────────────────────────────────────── -->
+  <div class="actions">
+    <button class="btn btn-primary" id="scrapeBtn">🔍 Verileri Çek</button>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="downloadBtn">⬇️ CSV İndir</button>
+      <button class="btn btn-danger" id="clearBtn">🗑️ Temizle</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
