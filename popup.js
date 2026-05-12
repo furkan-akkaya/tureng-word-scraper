@@ -189,9 +189,14 @@ function handleDownload() {
         saveAs: true,
       },
       () => {
-        showStatus('✅ CSV dosyası indiriliyor...', 'success');
+        showStatus('✅ CSV dosyası indirildi ve liste temizlendi!', 'success');
         // Blob URL'yi temizle
         setTimeout(() => URL.revokeObjectURL(url), 5000);
+        
+        // İndirme işleminden sonra storage'ı otomatik temizle
+        chrome.storage.local.set({ wordList: [] }, () => {
+          loadWordList(); // Arayüzü yenile (boş liste görünsün)
+        });
       }
     );
   });
