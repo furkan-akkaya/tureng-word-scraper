@@ -1,12 +1,12 @@
-# Tureng Kelime Toplayıcı Chrome Eklentisi 📖
+# Tureng Kelime Toplayıcı Chrome Eklentisi
 
-Tureng.com üzerinde yaptığınız İngilizce-Türkçe kelime aramalarını otomatik olarak yakalayıp kaydeden ve bunları dilediğiniz zaman düzenli bir CSV dosyası olarak dışa aktarmanızı sağlayan modern bir Google Chrome eklentisi.
+Tureng.com üzerinde yaptığınız İngilizce-Türkçe kelime aramalarını otomatik olarak yakalayıp kaydeden ve bunları dilediğiniz zaman düzenli bir CSV dosyası olarak dışa aktarmanızı sağlayan bir Google Chrome eklentisi.
 
-## 🚀 Proje Özeti
+## Proje Özeti
 
-İngilizce öğrenirken veya çeviri yaparken arattığınız kelimeleri tek tek not alma derdine son! Bu eklenti, Tureng sonuç sayfasını arka planda analiz eder, aranan kelimenin en popüler Türkçe karşılıklarını ve varsa örnek cümleleri yakalar. Kaydedilen bu kelime listesini eklenti menüsünden görebilir ve tek tıkla Excel'de açılabilecek tablo (CSV) formatında bilgisayarınıza indirebilirsiniz.
+İngilizce öğrenirken veya çeviri yaparken arattığınız kelimeleri tek tek not almak yerine eklenti bunları otomatik kaydeder. Eklenti, Tureng sonuç sayfasını arka planda analiz eder, aranan kelimenin en popüler Türkçe karşılıklarını ve varsa örnek cümleleri yakalar. Kaydedilen bu kelime listesini eklenti menüsünden görebilir ve tek tıkla Excel'de açılabilecek tablo (CSV) formatında bilgisayarınıza indirebilirsiniz.
 
-## ✨ Özellikler
+## Özellikler
 
 - **Otomatik Yakalama:** Tureng'de bir kelime arattığınızda sonuçlar (Kelime, Anlamlar, Örnek Cümle) otomatik olarak yerel hafızaya kaydedilir.
 - **Akıllı Cümle Çekimi:** Tureng'in DOM yapısındaki gereksiz butonları ("More Sentences") süzerek, örnek cümleleri en temiz haliyle çeker.
@@ -15,16 +15,16 @@ Tureng.com üzerinde yaptığınız İngilizce-Türkçe kelime aramalarını oto
 - **Otomatik Temizlik:** Verilerinizi CSV olarak indirdikten sonra, eklenti hafızasını otomatik olarak sıfırlayarak yeni kelimeler için yer açar.
 - **Manuel Veri Çekme:** Arayüzdeki "Verileri Çek" butonu ile açık olan sekmedeki kelimeyi anında kaydetme imkanı.
 
-## 🛠 Kullanılan Teknolojiler
+## Kullanılan Teknolojiler
 
-- **Manifest V3:** En güncel Chrome Extension mimarisi.
-- **JavaScript (ES6+):** Modern, hafif ve bağımlılıksız geliştirme.
-- **Chrome Storage API:** Verileri tarayıcının yerel diskinde güvenle saklama.
+- **Manifest V3:** Chrome Extension Manifest V3.
+- **JavaScript (ES6+):** Harici bağımlılık kullanılmadan yazıldı.
+- **Chrome Storage API:** Verileri tarayıcının yerel depolamasında saklama.
 - **DOM Manipulation:** Site içeriklerini (content script ile) dinamik olarak okuma ve ayrıştırma.
 
-## 📥 Kurulum (Local / Geliştirici Modu)
+## Kurulum (Local / Geliştirici Modu)
 
-Projeyi bilgisayarınıza indirip Chrome'a eklemek oldukça basittir:
+Projeyi Chrome'a eklemek için:
 
 1. Bu projeyi bilgisayarınıza indirin (ZIP veya `git clone` ile).
 2. Google Chrome tarayıcınızı açın.
